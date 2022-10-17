@@ -3,7 +3,7 @@ Epitech "Spark" project creator, made to start coding right away without having 
 
 ## Installation
 ```
-curl https://raw.githubusercontent.com/Kapsulon/spark/main/install.sh | sudo sh
+curl https://raw.githubusercontent.com/Kapsulon/spark/main/install.sh | sh
 ```
 
 ## Using Spark

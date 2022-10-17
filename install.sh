@@ -9,7 +9,7 @@ sudo dnf install -y python3 python3-pip
 pip install InquirerPy rich requests
 
 # install spark
-rm -rf /tmp/spark
+sudo rm -rf /tmp/spark
 git clone "https://github.com/Kapsulon/spark.git" /tmp/spark/
 cd /tmp/spark/
 sudo chmod 777 *
