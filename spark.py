@@ -5,9 +5,11 @@
 ## spark main file
 ##
 
+import requests
 import os
 import rich
 from InquirerPy import inquirer
+
 
 def is_directory_empty():
     return len(os.listdir(".")) == 0
@@ -44,7 +46,19 @@ def select_file_template():
 def error_keyboard_interrupt():
     rich.print("[bold red]Aborted.\n[/bold red]")
 
+def check_update():
+    if requests.get("https://raw.githubusercontent.com/Kapsulon/spark/main/VERSION").text != open("VERSION", "r").read():
+        rich.print("[bold yellow]A new version of Spark is available, would you like to update it ?\n[/bold yellow]")
+        if inquirer.confirm(message="Update Spark ?").execute():
+            os.system("git pull")
+            rich.print("[bold green]Spark has been updated.[/bold green]")
+        else:
+            rich.print("[bold red]Spark has not been updated.[/bold red]")
+    else:
+        rich.print("[bold green]Spark is up to date.[/bold green]")
+
 def main():
+    check_update()
     try:
         action = inquirer.select(
             message="Select an action: ",

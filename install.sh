@@ -6,7 +6,7 @@ sudo rm -rf /usr/local/bin/spark
 
 # install prerequisites
 sudo dnf install -y python3 python3-pip
-pip install InquirerPy rich
+pip install InquirerPy rich requests
 
 # install spark
 rm -rf /tmp/spark
