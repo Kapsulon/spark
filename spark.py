@@ -34,8 +34,8 @@ def select_file_template():
     choice = inquirer.select(
         message="Select a file template",
         choices=[
-            "Main project Makefile  (Makefile)",
-            "lib Makefile           (Makefile)",
+            "C Main project Makefile  (Makefile)",
+            "C lib Makefile           (Makefile)",
             "C Header file          (header.h)",
             ".gitignore             (.gitignore)",
         ],
