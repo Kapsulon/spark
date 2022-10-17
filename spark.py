@@ -20,29 +20,35 @@ def can_create_project(x):
         return is_directory_empty()
     return True
 
-def ask_project_name():
-    return inquirer.text(
-        message="Project name: ",
-        validate=lambda x: x != "",
-        invalid_message="You must enter a project name"
-    ).execute()
+def ask_string(name="Name"):
+    try:
+        return inquirer.text(
+            message=name + ": ",
+            validate=lambda x: x != "",
+            invalid_message="You must enter a [" + name + "]"
+        ).execute()
+    except KeyboardInterrupt:
+        error_keyboard_interrupt()
 
 def create_project():
-    name = ask_project_name()
+    name = ask_string("Project name")
 
 def select_file_template():
-    choice = inquirer.select(
-        message="Select a file template",
-        choices=[
-            "C Main project Makefile  (Makefile)",
-            "C lib Makefile           (Makefile)",
-            "C Header file          (header.h)",
-            ".gitignore             (.gitignore)",
-        ],
-        border=True,
-        show_cursor=False,
-        cycle=True
-    ).execute()
+    try:
+        choice = inquirer.select(
+            message="Select a file template",
+            choices=[
+                "C Main project Makefile    (Makefile)",
+                "C lib Makefile             (Makefile)",
+                "C Header file              (header.h)",
+                ".gitignore                 (.gitignore)",
+            ],
+            border=True,
+            show_cursor=False,
+            cycle=True
+        ).execute()
+    except KeyboardInterrupt:
+        error_keyboard_interrupt()
 
 def error_keyboard_interrupt():
     rich.print("[bold red]Aborted.\n[/bold red]")
