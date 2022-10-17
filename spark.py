@@ -51,7 +51,7 @@ def check_update():
     if requests.get("https://raw.githubusercontent.com/Kapsulon/spark/main/VERSION").text != open(SPARK_DIR + "VERSION", "r").read():
         rich.print("[bold yellow]A new version of Spark is available, would you like to update it ?\n[/bold yellow]")
         if inquirer.confirm(message="Update Spark ?").execute():
-            os.system("git pull")
+            os.system("curl https://raw.githubusercontent.com/Kapsulon/spark/main/install.sh | sh")
             rich.print("[bold green]Spark has been updated.[/bold green]")
         else:
             rich.print("[bold red]Spark has not been updated.[/bold red]")
