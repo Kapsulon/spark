@@ -53,6 +53,7 @@ def check_update():
         if inquirer.confirm(message="Update Spark ?").execute():
             os.system("curl https://raw.githubusercontent.com/Kapsulon/spark/main/install.sh | sh")
             rich.print("[bold green]Spark has been updated.[/bold green]")
+            exit(0)
         else:
             rich.print("[bold red]Spark has not been updated.[/bold red]")
     else:
