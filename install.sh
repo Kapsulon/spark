@@ -9,4 +9,4 @@ cd /tmp/spark/
 sudo chmod 777 *
 sudo mv spark /usr/local/bin
 cd ..
-sudo mv spark/ /usr/local/lib
+sudo mv spark/* /usr/local/lib/spark/
