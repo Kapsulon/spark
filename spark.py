@@ -41,24 +41,30 @@ def select_file_template():
         cycle=True
     ).execute()
 
+def error_keyboard_interrupt():
+    rich.print("[bold red]Aborted.\n[/bold red]")
+
 def main():
-    action = inquirer.select(
-        message="Select an action: ",
-        choices=[
-            "Create a new project",
-            "Create a new file"
-        ],
-        default=None,
-        validate=can_create_project,
-        invalid_message="You can't create a new project in a non-empty directory",
-        border=True,
-        show_cursor=False,
-        cycle=True
-    ).execute()
-    if action == "Create a new project":
-        create_project()
-    elif action == "Create a new file":
-        select_file_template()
+    try:
+        action = inquirer.select(
+            message="Select an action: ",
+            choices=[
+                "Create a new project",
+                "Create a new file"
+            ],
+            default=None,
+            validate=can_create_project,
+            invalid_message="You can't create a new project in a non-empty directory",
+            border=True,
+            show_cursor=False,
+            cycle=True
+        ).execute()
+        if action == "Create a new project":
+            create_project()
+        elif action == "Create a new file":
+            select_file_template()
+    except KeyboardInterrupt:
+        error_keyboard_interrupt()
 
 if __name__ == "__main__":
     main()
