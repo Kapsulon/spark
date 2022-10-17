@@ -7,6 +7,6 @@ rm -rf /tmp/spark
 git clone "https://github.com/Kapsulon/spark.git" /tmp/spark/
 cd /tmp/spark/
 sudo chmod 777 *
-mv spark /usr/local/bin
+sudo mv spark /usr/local/bin
 cd ..
-mv spark/ /usr/local/lib
+sudo mv spark/ /usr/local/lib
