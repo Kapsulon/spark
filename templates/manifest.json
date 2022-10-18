@@ -1,0 +1,24 @@
+{
+    "templates": [
+        {
+            "name": "C Header File",
+            "path": "cheader.h",
+            "name_replace": "%FILENAME%.h"
+        },
+        {
+            "name": "C Main project Makefile",
+            "path": "cmain.mk",
+            "name_replace": "Makefile"
+        },
+        {
+            "name": "C lib Makefile",
+            "path": "clib.mk",
+            "name_replace": "Makefile"
+        },
+        {
+            "name": ".gitignore",
+            "path": "gitignore",
+            "name_replace": ".gitignore"
+        }
+    ]
+}
