@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, %YEAR%
-## %PROJECT_NAME%
+## %PROJECTNAME%
 ## File description:
 ## %DESCRIPTION%
 ##

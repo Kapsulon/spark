@@ -1,12 +1,12 @@
 /*
 ** EPITECH PROJECT, %YEAR%
-** %PROJECT_NAME%
+** %PROJECTNAME%
 ** File description:
 ** %DESCRIPTION%
 */
 
-#ifndef %FILE_NAME%_H_
-    #define %FILE_NAME%_H_
+#ifndef %FILENAME%_H_
+    #define %FILENAME%_H_
 
 
-#endif /* !%FILE_NAME%_H_ */
+#endif /* !%FILENAME%_H_ */

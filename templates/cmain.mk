@@ -1,11 +1,11 @@
 ##
 ## EPITECH PROJECT, %YEAR%
-## %PROJECT_NAME%
+## %PROJECTNAME%
 ## File description:
 ## %DESCRIPTION%
 ##
 
-NAME = %EXECUTABLE_NAME%
+NAME = %EXECUTABLENAME%
 
 SRC = $(shell find . -type f -name "*.c")
 

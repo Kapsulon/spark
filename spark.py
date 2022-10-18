@@ -15,19 +15,24 @@ import re
 SPARK_DIR = "/usr/local/lib/spark/"
 
 def replace_placeholders(content:str):
-    placeholders = re.findall("%*%", content)
+    placeholders = re.findall("%[a-zA-Z]+%", content)
     for placeholder in placeholders:
         content = content.replace(placeholder, ask_string(placeholder))
     return content
 
 def create_file_from_template(template:str):
-    templates = json.loads(open(SPARK_DIR + "templates/manifest.json", "r").read())
+    templates = json.loads(open(SPARK_DIR + "templates/manifest.json", "r").read()).get("templates")
     for t in templates:
         if t["name"] == template:
-            with open(t["file"], "r") as f:
+            with open(SPARK_DIR + "templates/" + t["path"], "r") as f:
                 content = f.read()
             if t["name_replace"].count("%") == 2:
-                with open(ask_string("File name"), "w") as f:
+                fname = ask_string(t["name_replace"].replace("%", ""))
+                if fname.endswith(".h.h"):
+                    fname = fname[:-2]
+                elif not fname.endswith(".h"):
+                    fname += ".h"
+                with open(fname, "w") as f:
                     f.write(replace_placeholders(content))
             else:
                 with open(t["name_replace"], "w") as f:
@@ -69,7 +74,7 @@ def select_file_template():
             choices=[
                 "C Main project Makefile    (Makefile)",
                 "C lib Makefile             (Makefile)",
-                "C Header file              (header.h)",
+                "C Header File              (header.h)",
                 ".gitignore                 (.gitignore)",
             ],
             filter=lambda result: result.split("  ")[0],
