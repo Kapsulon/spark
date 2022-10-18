@@ -16,8 +16,16 @@ SPARK_DIR = "/usr/local/lib/spark/"
 
 def replace_placeholders(content:str):
     placeholders = re.findall("%[a-zA-Z]+%", content)
+    place = {}
     for placeholder in placeholders:
-        content = content.replace(placeholder, ask_string(placeholder))
+        if not placeholder in place:
+            place[placeholder] = ask_string(placeholder.replace("%", ""))
+    for placeholder in place:
+        while placeholder in content:
+            if placeholder == "%FILENAME%":
+                content = content.replace(placeholder, place[placeholder].upper())
+            else:
+                content = content.replace(placeholder, place[placeholder])
     return content
 
 def create_file_from_template(template:str):
@@ -37,6 +45,8 @@ def create_file_from_template(template:str):
             else:
                 with open(t["name_replace"], "w") as f:
                     f.write(replace_placeholders(content))
+            print_spark_prefix()
+            rich.print("[bold green]File created.[/bold green]")
             break
 
 def print_spark_header():
@@ -66,22 +76,35 @@ def ask_string(name="Name"):
 
 def create_project():
     name = ask_string("Project name")
+    os.mkdir("lib")
+    os.mkdir("lib/my")
+    os.mkdir("include")
+    select_file_template(".gitignore")
+    select_file_template("C Header File")
+    os.system("mv *.h include/")
+    select_file_template("C lib Makefile")
+    os.system("mv Makefile lib/my/")
+    select_file_template("C Main project Makefile")
+    print_spark_prefix()
+    rich.print("[bold green]Project created.[/bold green]")
 
-def select_file_template():
+
+def select_file_template(choice=None):
     try:
-        choice = inquirer.select(
-            message="Select a file template",
-            choices=[
-                "C Main project Makefile    (Makefile)",
-                "C lib Makefile             (Makefile)",
-                "C Header File              (header.h)",
-                ".gitignore                 (.gitignore)",
-            ],
-            filter=lambda result: result.split("  ")[0],
-            border=True,
-            show_cursor=False,
-            cycle=True
-        ).execute()
+        if choice == None:
+            choice = inquirer.select(
+                message="Select a file template",
+                choices=[
+                    "C Main project Makefile    (Makefile)",
+                    "C lib Makefile             (Makefile)",
+                    "C Header File              (header.h)",
+                    ".gitignore                 (.gitignore)",
+                ],
+                filter=lambda result: result.split("  ")[0],
+                border=True,
+                show_cursor=False,
+                cycle=True
+            ).execute()
         create_file_from_template(choice)
     except KeyboardInterrupt:
         error_keyboard_interrupt()
