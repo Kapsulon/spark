@@ -27,6 +27,7 @@ def analyse_coding_style_report():
         print_spark_prefix()
         rich.print("[bold red]Errors found.[/bold red]")
         print(report)
+    os.system("rm coding-style-reports.log")
 
 def run_coding_style_check():
     print_spark_prefix()
