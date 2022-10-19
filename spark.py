@@ -19,7 +19,7 @@ SPARK_DIR = "/usr/local/lib/spark/"
 def analyse_coding_style_report():
     print_spark_prefix()
     rich.print("[bold yellow]Analyzing coding style report...[/bold yellow]")
-    report = open("coding-style-report.txt", "r").read()
+    report = open("coding-style-reports.log", "r").read()
     if report == "":
         print_spark_prefix()
         rich.print("[bold green]No errors found.[/bold green]")
@@ -146,7 +146,7 @@ def check_update():
             print_spark_prefix()
             rich.print("[bold green]Spark has been updated.[/bold green]")
             sleep(1)
-            os.execv(__file__, sys.argv)
+            os.execv(sys.executable, ["python3"] + sys.argv)
         else:
             print_spark_prefix()
             rich.print("[bold red]Spark has not been updated.[/bold red]")
