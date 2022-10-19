@@ -160,9 +160,9 @@ def main():
         action = inquirer.select(
             message="Select an action: ",
             choices=[
-                "Run a coding style check",
-                "Create a new project",
-                "Create a new file"
+                "Run coding style check",
+                "Create new project from template",
+                "Create new file from template"
             ],
             default=None,
             validate=can_create_project,
@@ -171,10 +171,12 @@ def main():
             show_cursor=False,
             cycle=True
         ).execute()
-        if action == "Create a new project":
+        if action == "Create new project from template":
             create_project()
-        elif action == "Create a new file":
+        elif action == "Create new file from template":
             select_file_template()
+        elif action == "Run coding style check":
+            run_coding_style_check()
     except KeyboardInterrupt:
         error_keyboard_interrupt()
 
