@@ -32,6 +32,7 @@ def run_coding_style_check():
     print_spark_prefix()
     rich.print("[bold yellow]Running coding style check...[/bold yellow]")
     os.system("coding-style . . > /dev/null")
+    analyse_coding_style_report()
 
 def replace_placeholders(content:str):
     placeholders = re.findall("%[a-zA-Z]+%", content)
@@ -136,6 +137,7 @@ def error_keyboard_interrupt():
     rich.print("[bold red]Keyboard interrupt.[/bold red]\n")
 
 def check_update():
+    version = open(SPARK_DIR + "VERSION", "r").read()
     if requests.get("https://raw.githubusercontent.com/Kapsulon/spark/main/VERSION").text != open(SPARK_DIR + "VERSION", "r").read():
         print_spark_prefix()
         rich.print("[bold yellow]A new version of Spark is available, would you like to update it ?\n[/bold yellow]")
@@ -150,7 +152,7 @@ def check_update():
             rich.print("[bold red]Spark has not been updated.[/bold red]")
     else:
         print_spark_prefix()
-        rich.print("[bold green]Spark is up to date.[/bold green]")
+        rich.print(f"[bold green]Spark is up to date. ({version})[/bold green]")
 
 def main():
     os.system("clear")
