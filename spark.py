@@ -5,14 +5,33 @@
 ## spark main file
 ##
 
+from time import sleep
 import requests
 import os
+import sys
 import rich
 from InquirerPy import inquirer
 import json
 import re
 
 SPARK_DIR = "/usr/local/lib/spark/"
+
+def analyse_coding_style_report():
+    print_spark_prefix()
+    rich.print("[bold yellow]Analyzing coding style report...[/bold yellow]")
+    report = open("coding-style-report.txt", "r").read()
+    if report == "":
+        print_spark_prefix()
+        rich.print("[bold green]No errors found.[/bold green]")
+    else:
+        print_spark_prefix()
+        rich.print("[bold red]Errors found.[/bold red]")
+        print(report)
+
+def run_coding_style_check():
+    print_spark_prefix()
+    rich.print("[bold yellow]Running coding style check...[/bold yellow]")
+    os.system("coding-style . . > /dev/null")
 
 def replace_placeholders(content:str):
     placeholders = re.findall("%[a-zA-Z]+%", content)
@@ -124,7 +143,8 @@ def check_update():
             os.system("curl https://raw.githubusercontent.com/Kapsulon/spark/main/install.sh | sh")
             print_spark_prefix()
             rich.print("[bold green]Spark has been updated.[/bold green]")
-            exit(0)
+            sleep(1)
+            os.execv(__file__, sys.argv)
         else:
             print_spark_prefix()
             rich.print("[bold red]Spark has not been updated.[/bold red]")
@@ -140,6 +160,7 @@ def main():
         action = inquirer.select(
             message="Select an action: ",
             choices=[
+                "Run a coding style check",
                 "Create a new project",
                 "Create a new file"
             ],

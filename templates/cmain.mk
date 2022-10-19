@@ -9,10 +9,10 @@ NAME = %EXECUTABLENAME%
 
 SRC = $(shell find . -type f -name "*.c")
 
-LIBFLAG = -I.././include -L.././lib/my -lmy
+LIBFLAG = -I./include -L./lib/my -lmy
 
 $(NAME):
-	cd ../lib/my && make
+	cd lib/my && make
 	gcc -o $(NAME) $(SRC) $(LIBFLAG)
 
 all: $(NAME)
@@ -22,6 +22,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	cd ../lib/my && make fclean
+	cd lib/my && make fclean
 
 re: fclean all
