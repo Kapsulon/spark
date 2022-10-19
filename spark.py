@@ -57,7 +57,10 @@ def print_spark_prefix():
     rich.get_console().print("[bold #FFD533]Spark[/bold #FFD533] > ", end="")
 
 def is_directory_empty():
-    return len(os.listdir(".")) == 0
+    content = os.listdir(".")
+    if ".git" in content:
+        content.remove(".git")
+    return len(content) == 0
 
 def can_create_project(x):
     if x == "Create a new project":
