@@ -1,9 +1,12 @@
 ##
-## KAPSULON PROJECT, 2022
+## SPARK PROJECT, 2022
 ## spark
 ## File description:
 ## spark main file
 ##
+
+from spark_printer import *
+from coding_style_analyser import *
 
 from time import sleep
 import requests
@@ -16,7 +19,7 @@ import re
 
 SPARK_DIR = "/usr/local/lib/spark/"
 
-def analyse_coding_style_report():
+def run_coding_style_report():
     print_spark_prefix()
     rich.print("[bold yellow]Analyzing coding style report...[/bold yellow]")
     report = open("coding-style-reports.log", "r").read()
@@ -26,14 +29,16 @@ def analyse_coding_style_report():
     else:
         print_spark_prefix()
         rich.print("[bold red]Errors found.[/bold red]")
-        print(report)
+        errors = analyse_coding_style_report(report)
+        display_coding_style_report(errors)
     os.system("rm coding-style-reports.log")
 
 def run_coding_style_check():
     print_spark_prefix()
     rich.print("[bold yellow]Running coding style check...[/bold yellow]")
     os.system("coding-style . . > /dev/null")
-    analyse_coding_style_report()
+    run_coding_style_report()
+
 
 def replace_placeholders(content:str):
     placeholders = re.findall("%[a-zA-Z]+%", content)
@@ -69,13 +74,6 @@ def create_file_from_template(template:str):
             print_spark_prefix()
             rich.print("[bold green]File created.[/bold green]")
             break
-
-def print_spark_header():
-    with open(SPARK_DIR + "header.txt", "r") as f:
-        rich.print("[bold #FFD533]" + f.read() + "[/bold #FFD533]")
-
-def print_spark_prefix():
-    rich.get_console().print("[bold #FFD533]Spark[/bold #FFD533] > ", end="")
 
 def is_directory_empty():
     content = os.listdir(".")
