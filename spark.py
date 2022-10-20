@@ -20,22 +20,19 @@ import re
 SPARK_DIR = "/usr/local/lib/spark/"
 
 def run_coding_style_report():
-    print_spark_prefix()
-    rich.print("[bold yellow]Analyzing coding style report...[/bold yellow]")
+    print_spark("[bold yellow]Analyzing coding style report...[/bold yellow]")
     report = open("coding-style-reports.log", "r").read()
     if report == "":
-        print_spark_prefix()
-        rich.print("[bold green]No errors found.[/bold green]")
+        print_spark("[bold green]No errors found.[/bold green]")
     else:
-        print_spark_prefix()
-        rich.print("[bold red]Errors found.[/bold red]")
+        print_spark("[bold red]Errors found.[/bold red]")
         errors = analyse_coding_style_report(report)
         display_coding_style_report(errors)
     os.system("rm coding-style-reports.log")
 
 def run_coding_style_check():
-    print_spark_prefix()
-    rich.print("[bold yellow]Running coding style check...[/bold yellow]")
+    console = rich.console.Console()
+    print_spark("[bold yellow]Running coding style check...[/bold yellow]")
     os.system("coding-style . . > /dev/null")
     run_coding_style_report()
 
