@@ -30,6 +30,7 @@ def run_coding_style_report():
         errors = analyse_coding_style_report(report)
         display_coding_style_report(errors)
     os.system("rm coding-style-reports.log")
+    sys.exit(0)
 
 def run_coding_style_check():
     print_spark("[bold yellow]Running coding style check...[/bold yellow]")
