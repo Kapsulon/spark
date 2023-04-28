@@ -6,6 +6,7 @@
 ##
 
 import rich
+import sys
 
 SPARK_DIR = "/usr/local/lib/spark/"
 
@@ -23,3 +24,8 @@ def print_spark(text):
 def print_spark_error(text):
     rich.print("[bold #FFD533]Spark[/bold #FFD533] [bold #FF4545][Error][/bold #FF4545] > ", end="")
     print(text)
+
+def error_keyboard_interrupt():
+    print_spark_prefix()
+    rich.print("[bold red]Keyboard interrupt.[/bold red]\n")
+    sys.exit(84)

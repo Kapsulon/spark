@@ -7,6 +7,7 @@
 
 from spark_printer import *
 from coding_style_analyser import *
+from project_manager import *
 
 from time import sleep
 import requests
@@ -31,11 +32,16 @@ def run_coding_style_report():
     os.system("rm coding-style-reports.log")
 
 def run_coding_style_check():
-    console = rich.console.Console()
     print_spark("[bold yellow]Running coding style check...[/bold yellow]")
     os.system("coding-style . . > /dev/null")
     run_coding_style_report()
 
+def place_lib(libs: list[str]) -> str:
+    string = ""
+    for lib in libs:
+        string += "-l" + lib + " "
+    string[-1] = ""
+    return string
 
 def replace_placeholders(content:str):
     placeholders = re.findall("%[a-zA-Z]+%", content)
@@ -45,10 +51,9 @@ def replace_placeholders(content:str):
             place[placeholder] = ask_string(placeholder.replace("%", ""))
     for placeholder in place:
         while placeholder in content:
-            if placeholder == "%FILENAME%":
-                content = content.replace(placeholder, place[placeholder].upper())
-            else:
-                content = content.replace(placeholder, place[placeholder])
+            if placeholder == "%LIBS%":
+                content = content.replace(placeholder, place_lib(place[placeholder].split(" ")))
+            content = content.replace(placeholder, place[placeholder])
     return content
 
 def create_file_from_template(template:str):
@@ -72,17 +77,6 @@ def create_file_from_template(template:str):
             rich.print("[bold green]File created.[/bold green]")
             break
 
-def is_directory_empty():
-    content = os.listdir(".")
-    if ".git" in content:
-        content.remove(".git")
-    return len(content) == 0
-
-def can_create_project(x):
-    if x == "Create a new project":
-        return is_directory_empty()
-    return True
-
 def ask_string(name="Name"):
     try:
         return inquirer.text(
@@ -93,44 +87,14 @@ def ask_string(name="Name"):
     except KeyboardInterrupt:
         error_keyboard_interrupt()
 
-def create_project():
-    name = ask_string("Project name")
-    os.mkdir("lib")
-    os.mkdir("lib/my")
-    os.mkdir("include")
-    select_file_template(".gitignore")
-    select_file_template("C Header File")
-    os.system("mv *.h include/")
-    select_file_template("C lib Makefile")
-    os.system("mv Makefile lib/my/")
-    select_file_template("C Main project Makefile")
-    print_spark_prefix()
-    rich.print("[bold green]Project created.[/bold green]")
-
-
-def select_file_template(choice=None):
+def ask_yes_no(name="Name"):
     try:
-        if choice == None:
-            choice = inquirer.select(
-                message="Select a file template",
-                choices=[
-                    "C Main project Makefile    (Makefile)",
-                    "C lib Makefile             (Makefile)",
-                    "C Header File              (header.h)",
-                    ".gitignore                 (.gitignore)",
-                ],
-                filter=lambda result: result.split("  ")[0],
-                border=True,
-                show_cursor=False,
-                cycle=True
-            ).execute()
-        create_file_from_template(choice)
+        return inquirer.confirm(
+            message=name + ": ",
+            default=False
+        ).execute()
     except KeyboardInterrupt:
         error_keyboard_interrupt()
-
-def error_keyboard_interrupt():
-    print_spark_prefix()
-    rich.print("[bold red]Keyboard interrupt.[/bold red]\n")
 
 def check_update():
     version = open(SPARK_DIR + "VERSION", "r").read()
@@ -151,32 +115,29 @@ def check_update():
         rich.print(f"[bold green]Spark is up to date. ({version})[/bold green]")
 
 def main():
-    os.system("clear")
-    print_spark_header()
-    check_update()
-    try:
-        action = inquirer.select(
-            message="Select an action: ",
-            choices=[
-                "Run coding style check",
-                "Create new project from template",
-                "Create new file from template"
-            ],
-            default=None,
-            validate=can_create_project,
-            invalid_message="You can't create a new project in a non-empty directory",
-            border=True,
-            show_cursor=False,
-            cycle=True
-        ).execute()
-        if action == "Create new project from template":
-            create_project()
-        elif action == "Create new file from template":
-            select_file_template()
-        elif action == "Run coding style check":
-            run_coding_style_check()
-    except KeyboardInterrupt:
-        error_keyboard_interrupt()
+    while True:
+        os.system("clear")
+        print_spark_header()
+        check_update()
+        check_spark_project()
+        try:
+            action = inquirer.select(
+                message="Select an action: ",
+                choices=[
+                    "Run coding style check",
+                    "Manage Spark Project"
+                ],
+                default=None,
+                border=True,
+                show_cursor=False,
+                cycle=True
+            ).execute()
+            if action == "Manage Spark Project":
+                manage_spark_project()
+            elif action == "Run coding style check":
+                run_coding_style_check()
+        except KeyboardInterrupt:
+            error_keyboard_interrupt()
 
 if __name__ == "__main__":
     main()
