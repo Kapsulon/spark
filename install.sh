@@ -5,9 +5,11 @@ sudo rm -rf /usr/local/lib/spark
 sudo rm -rf /usr/local/bin/spark
 
 # install prerequisites
-if [ -f /etc/arch-release ] then
+if [ -f /etc/arch-release ]
+then
     sudo pacman -S python python-pip --noconfirm
-elif [ -f /etc/fedora-release ] then
+elif [ -f /etc/fedora-release ]
+then
     sudo dnf install -y python3 python3-pip
 fi
 pip install InquirerPy rich requests
