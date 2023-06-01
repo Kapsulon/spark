@@ -20,7 +20,7 @@ pip install InquirerPy rich requests
 sudo docker build -t epitest-server .
 
 # init epitest daemon
-./epitest-daemon
+bash epitest-daemon
 
 # install spark
 sudo rm -rf /tmp/spark
