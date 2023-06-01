@@ -16,16 +16,13 @@ fi
 # install python dependencies
 pip install InquirerPy rich requests
 
-# build epitest daemon
-sudo docker build -t epitest-server .
-
-# init epitest daemon
-bash epitest-daemon
 
 # install spark
 sudo rm -rf /tmp/spark
 git clone "https://github.com/Kapsulon/spark.git" /tmp/spark/
 cd /tmp/spark/
+sudo docker build -t epitest-server .
+bash epitest-daemon
 sudo chmod 777 *
 sudo mv spark /usr/local/bin
 cd ..
