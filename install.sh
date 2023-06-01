@@ -16,6 +16,11 @@ fi
 # install python dependencies
 pip install InquirerPy rich requests
 
+# check if the epitest-daemon docker is running, if yes kill it
+if [ "$(sudo docker ps -q -f name=epitest-daemon)" ]
+then
+    sudo docker kill epitest-daemon
+fi
 
 # install spark
 sudo rm -rf /tmp/spark

@@ -1,13 +1,13 @@
 FROM fedora:36
 
 RUN dnf update -y
-RUN dnf install -y --no-install-recommends tcl-devel
-RUN dnf install -y --no-install-recommends boost-devel
-RUN dnf install -y --no-install-recommends git
-RUN dnf install -y --no-install-recommends cmake
-RUN dnf install -y --no-install-recommends make
-RUN dnf install -y --no-install-recommends gcc-c++
-RUN dnf install -y --no-install-recommends python3-devel
+RUN dnf install -y tcl-devel
+RUN dnf install -y boost-devel
+RUN dnf install -y git
+RUN dnf install -y cmake
+RUN dnf install -y make
+RUN dnf install -y gcc-c++
+RUN dnf install -y python3-devel
 RUN dnf clean all -y
 
 FROM ghcr.io/epitech/coding-style-checker:latest
