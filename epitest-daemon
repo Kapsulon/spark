@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sudo docker run -it \
+--name epitest-daemon \
+--user $UID:$GID \
+--detach \
+-v ~/:/home/$USER \
+--workdir /home \
+--restart unless-stopped \
+epitest-server sleep infinity

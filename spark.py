@@ -34,7 +34,7 @@ def run_coding_style_report():
 
 def run_coding_style_check():
     print_spark("[bold yellow]Running coding style check...[/bold yellow]")
-    os.system("coding-style . . > /dev/null")
+    os.system("docker exec -it epitest-daemon bash -c 'check.sh $PWD $PWD'")
     run_coding_style_report()
 
 def place_lib(libs: list[str]) -> str:
