@@ -7,6 +7,7 @@
 
 import sys
 import rich
+import os
 from spark_printer import print_spark_error
 from errors import get_error_desc
 
@@ -43,4 +44,5 @@ def display_coding_style_report(report):
     rich.print(f"\n[bold #FF4545]{len(report.errors)}[/bold #FF4545] errors found:")
     for index in indexes:
         rich.print(f"[bold #FF4545]{index}[/bold #FF4545]: {get_error_desc(index)}")
+    os.system("rm coding-style-reports.log")
     sys.exit(84)
